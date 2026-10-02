@@ -1,0 +1,27 @@
+name: PySpark DataOps CI Pipeline
+
+on:
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+
+jobs:
+  pyspark-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Project Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute PySpark Unit Tests
+        run: |
+          pytest test_pyspark_job.py
